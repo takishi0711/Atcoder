@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+#include <atcoder/all>
+using namespace atcoder;
+#define rep(i,n) for (int i = 0; i < (n); ++i)
+using namespace std;
+using ll = long long;
+using P = pair<int,int>;
+#define chmax(x,y) x = max(x,y);
+#define chmin(x,y) x = min(x,y);
+const int di[] = {-1, 0, 1, 0};
+const int dj[] = {0, -1, 0, 1};
+const int INF = 1001001001;
+const ll LINF = 1001002003004005006ll;
+
+int op(int a, int b) { return a+b;}
+int e() { return 0;}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    rep(i,n) cin >> a[i];
+    segtree<int,op,e> d(300005);
+    ll cnt = 0;
+    for (int i = 0; i < n; i++) {
+        cnt += d.prod(a[i],n+1);
+        d.set(a[i],1);
+    }
+    cout << cnt << endl;
+    rep(i,n-1) {
+        cnt += n-1-a[i];
+        cnt -= a[i]-0;
+        cout << cnt << endl;
+    }
+    return 0;
+}
