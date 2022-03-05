@@ -91,10 +91,10 @@ struct Rerooting {
         ans[v] = dpSumL[deg].addRoot();
 
         rep(i,deg) {
-        int u = to[v][i];
-        if (u == p) continue;
-        DP d = dpSumL[i] + dpSumR[i+1];
-        bfs(u, d.addRoot(), v);
+            int u = to[v][i];
+            if (u == p) continue;
+            DP d = dpSumL[i] + dpSumR[i+1];
+            bfs(u, d.addRoot(), v);
         }
     }
 };

@@ -15,6 +15,14 @@ const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
 const double PI = acos(-1);
 
+//全方位木dp
+//Data  : DPテーブルに乗せる型
+//merge : 頂点同士をマージする関数
+//e     : マージするときの単位元（を返す関数）
+//leaf  : 子がいないときの値（を返す関数）
+//apply : 親に値を返す関数
+//applyについて補足...引数のうち、Dataは子のdpテーブルの値、一つ目のintは子の番号、二つ目のintは親（引き上げ先）の番号、Costは辺のコスト
+//以上を問題ごとに設定する。
 template <typename Cost>
 struct Edge {
   int src, to;
@@ -81,7 +89,7 @@ using Cost = long long;
 Data merge(Data a, Data b) { return max(a, b); }
 Data e() { return 0; }
 Data leaf() { return 0; }
-Data apply(Data a, int c, int, Cost w) { return max<Data>(a, D[c]) + w; }
+Data apply(Data a, int ch, int par, Cost c) { return max<Data>(a, D[ch]) + c; }
 
 int main() {
     int n;

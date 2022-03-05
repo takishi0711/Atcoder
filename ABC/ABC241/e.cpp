@@ -22,24 +22,22 @@ int main() {
     rep(i,n) cin >> a[i];
     vector<ll> id(1000005,-1);
     ll len = 0;
-    vector<ll> num;
     ll x = 0;
     vector<ll> sum(1000005);
     while (id[x] < 0) {
         id[x] = len;
-        num.push_back(a[x]);
         len++;
         sum[len] = sum[len-1] + a[x];
         x = sum[len]%n;
     } 
-    ll c = len - id[a[x]];
+    ll c = len - id[x];
     if (k <= len) cout << sum[k] << endl;
     else {
         ll ans = sum[len];
         k -= len;
-        ans += (k/c) * (sum[len]-sum[id[a[x]]]);
+        ans += (k/c) * (sum[len]-sum[id[x]]);
         k %= c;
-        ans += sum[id[a[x]]+k]-sum[id[a[x]]];
+        ans += sum[id[x]+k]-sum[id[x]];
         cout << ans << endl;
     }
     return 0;
