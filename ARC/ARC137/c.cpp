@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+#include <atcoder/all>
+using namespace atcoder;
+#define rep(i,n) for (int i = 0; i < (n); ++i)
+using namespace std;
+using ll = long long;
+using P = pair<int,int>;
+#define chmax(x,y) x = max(x,y);
+#define chmin(x,y) x = min(x,y);
+const int di[] = {-1, 0, 1, 0};
+const int dj[] = {0, -1, 0, 1};
+const int INF = 1001001001;
+const ll LINF = 1001002003004005006ll;
+const double PI = acos(-1);
+
+
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    ll suma = 0, sum = 0;
+    rep(i,n) {
+        cin >> a[i];
+        sum += i;
+        suma += a[i];
+    }
+    
+    if ((suma-sum) == 0) cout << "Bob" << endl;
+    else cout << "Alice" << endl;
+    return 0;
+}

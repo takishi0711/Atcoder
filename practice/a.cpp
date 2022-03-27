@@ -15,39 +15,39 @@ const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
 const double PI = acos(-1);
 
-const int MX = 60000;
-ll dp[MX+5];
 
-ll sqrt_(ll x) {
-    ll l = 0, r = ll(3e9)+1;
-    while (l+1 < r) {
-        ll c = (l+r)/2;
-        if (c*c <= x) l = c; else r = c;
-    }
-    return l;
-}
-
-void solve() {
-    ll x;
-    cin >> x;
-    ll r = sqrt_(x);
-    ll ans = 0;
-    for (ll i = 1; i <= MX; i++) {
-        ll l = i*i;
-        if (l <= r) ans += dp[i]*(r-l+1);
-    }
-    cout << ans << endl;
-}
 
 int main() {
-    dp[1] = 1;
-    for (ll i = 1; i <= MX; i++) {
-        for (ll j = i*i; j <= MX; j++) {
-            if (i != j) dp[j] += dp[i];
-        }
+    int n, m;
+    cin >> n >> m;
+    vector<int> a(n), b(n), c(m), d(m);
+    rep(i,n) cin >> a[i];
+    rep(i,n) cin >> b[i];
+    rep(i,m) cin >> c[i];
+    rep(i,m) cin >> d[i];
+    vector<tuple<int,int,int>> vec;
+    rep(i,n) {
+        vec.push_back(make_tuple(a[i], b[i], 0));
     }
-    int T;
-    cin >> T;
-    rep(ti,T) solve();
+    rep(i,m) {
+        vec.push_back(make_tuple(c[i], d[i], 1));
+    }
+    sort(vec.rbegin(), vec.rend());
+    multiset<int> st;
+    rep(i,n+m) {
+        int x, y, id;
+        tie(x, y, id) = vec[i];
+        if (id == 0) {
+            auto it = st.lower_bound(y);
+            if (it == st.end()) {
+                cout << "No" << endl;
+                return 0;
+            }
+            st.erase(it);
+        } else {
+            st.insert(y);
+        }
+    } 
+    cout << "Yes" << endl;
     return 0;
 }
