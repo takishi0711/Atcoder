@@ -15,39 +15,26 @@ const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
 const double PI = acos(-1);
 
-
+ll dp[2005][2005];
 
 int main() {
-    int n, m;
-    cin >> n >> m;
-    vector<int> a(n), b(n), c(m), d(m);
+    int n;
+    cin >> n;
+    vector<int> a(n);
     rep(i,n) cin >> a[i];
-    rep(i,n) cin >> b[i];
-    rep(i,m) cin >> c[i];
-    rep(i,m) cin >> d[i];
-    vector<tuple<int,int,int>> vec;
+    vector<P> p;
+    rep(i,n) p.emplace_back(a[i],i);
+    sort(p.rbegin(), p.rend());
     rep(i,n) {
-        vec.push_back(make_tuple(a[i], b[i], 0));
-    }
-    rep(i,m) {
-        vec.push_back(make_tuple(c[i], d[i], 1));
-    }
-    sort(vec.rbegin(), vec.rend());
-    multiset<int> st;
-    rep(i,n+m) {
-        int x, y, id;
-        tie(x, y, id) = vec[i];
-        if (id == 0) {
-            auto it = st.lower_bound(y);
-            if (it == st.end()) {
-                cout << "No" << endl;
-                return 0;
-            }
-            st.erase(it);
-        } else {
-            st.insert(y);
+        int pi = p[i].second;
+        rep(l,i+1) {
+            int r = i-l;
+            chmax(dp[i+1][l+1], dp[i][l] + ll(pi-l)*a[pi]);
+            chmax(dp[i+1][l], dp[i][l] + ll(n-r-1-pi)*a[pi]);
         }
-    } 
-    cout << "Yes" << endl;
+    }
+    ll ans = 0;
+    rep(i,n+1) chmax(ans, dp[n][i]);
+    cout << ans << endl;
     return 0;
 }
