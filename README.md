@@ -1,1 +1,1 @@
-# Atcoder だよ
+# Atcoder がんばる
