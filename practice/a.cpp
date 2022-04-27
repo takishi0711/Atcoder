@@ -15,26 +15,29 @@ const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
 const double PI = acos(-1);
 
-ll dp[2005][2005];
+
 
 int main() {
     int n;
     cin >> n;
-    vector<int> a(n);
-    rep(i,n) cin >> a[i];
-    vector<P> p;
-    rep(i,n) p.emplace_back(a[i],i);
-    sort(p.rbegin(), p.rend());
-    rep(i,n) {
-        int pi = p[i].second;
-        rep(l,i+1) {
-            int r = i-l;
-            chmax(dp[i+1][l+1], dp[i][l] + ll(pi-l)*a[pi]);
-            chmax(dp[i+1][l], dp[i][l] + ll(n-r-1-pi)*a[pi]);
-        }
+    string s;
+    cin >> s;
+    if (n == 1) {
+        cout << 1 << endl;
+        return 0;
     }
-    ll ans = 0;
-    rep(i,n+1) chmax(ans, dp[n][i]);
-    cout << ans << endl;
+    int ans = 0;
+    for (int i = 1; i <= n-1; i++) {
+        string t1 = s.substr(0,i);
+        string t2 = s.substr(i,n-i);
+        vector<vector<int>> dp(n+1, vector<int>(n+1));
+        rep(j,t1.size())rep(k,t2.size()) {
+            if (t1[j] == t2[k]) chmax(dp[j+1][k+1], dp[j][k]+1);
+            chmax(dp[j+1][k+1], dp[j+1][k]);
+            chmax(dp[j+1][k+1], dp[j][k+1]);
+        }
+        chmax(ans, dp[t1.size()][t2.size()]);
+    }
+    cout << n-ans*2 << endl;
     return 0;
 }
