@@ -22,7 +22,7 @@ vector<vector<E>> g;
 
 vector<ll> dijkstra(int start = 0) {
     int N = g.size();
-    vector<ll> d(N, 1e18);
+    vector<ll> d(N, LINF);
     using P = pair<ll, int>;
     priority_queue<P, vector<P>, greater<P>> Q;
     Q.emplace(0, start);

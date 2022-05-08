@@ -20,24 +20,31 @@ const double PI = acos(-1);
 int main() {
     int n;
     cin >> n;
-    string s;
-    cin >> s;
-    if (n == 1) {
-        cout << 1 << endl;
-        return 0;
+    vector<vector<int>> to(n);
+    rep(i,n-1) {
+        int a, b;
+        cin >> a >> b;
+        a--; b--;
+        to[a].push_back(b);
+        to[b].push_back(a);
     }
-    int ans = 0;
-    for (int i = 1; i <= n-1; i++) {
-        string t1 = s.substr(0,i);
-        string t2 = s.substr(i,n-i);
-        vector<vector<int>> dp(n+1, vector<int>(n+1));
-        rep(j,t1.size())rep(k,t2.size()) {
-            if (t1[j] == t2[k]) chmax(dp[j+1][k+1], dp[j][k]+1);
-            chmax(dp[j+1][k+1], dp[j+1][k]);
-            chmax(dp[j+1][k+1], dp[j][k+1]);
+    priority_queue<int, vector<int>, greater<int>> q;
+    q.push(0);
+    vector<int> ans;
+    vector<int> used(n);
+    while (!q.empty()) {
+        int v = q.top();
+        q.pop();
+        ans.push_back(v);
+        used[v] = true;
+        for (int u : to[v]) {
+            if (used[u]) continue;
+            q.push(u);
         }
-        chmax(ans, dp[t1.size()][t2.size()]);
     }
-    cout << n-ans*2 << endl;
+    rep(i,n) {
+        if (i == n-1) cout << ans[i]+1 << endl;
+        else cout << ans[i]+1 << " ";
+    }
     return 0;
 }
