@@ -7,15 +7,11 @@ using ll = long long;
 using P = pair<int,int>;
 #define chmax(x,y) x = max(x,y);
 #define chmin(x,y) x = min(x,y);
-const int di[] = { -1, 0, 1, 0 };
-const int dj[] = { 0, -1, 0, 1 };
-const int dx[] = { 1, 1, 0, -1, -1, -1, 0, 1 };
-const int dy[] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+const int di[] = {-1, 0, 1, 0};
+const int dj[] = {0, -1, 0, 1};
 const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
 const double PI = acos(-1);
-
-using mint = modint;
 
 struct Sieve {
     int n;
@@ -53,7 +49,7 @@ struct Sieve {
         }
         return res;
     }
-    vector<pair<ll,int>> factorL(ll x) {
+    vector<pair<ll,int>> factor(ll x) {
         vector<pair<ll,int>> res;
         for (int p : primes) {
             int y = 0;
@@ -63,47 +59,28 @@ struct Sieve {
         if (x != 1) res.emplace_back(x,1);
         return res;
     }
-} prime(33000);
-
-int powmod(int x, int t, int mod) {
-    if (t == 0) return 1;
-    ll r = powmod(x, t>>1, mod);
-    r = r*r%mod;
-    if (t&1) r = r*x%mod;
-    return r;
-}
-
-void solve() {
-    int k;
-    cin >> k;
-    if (k%2 == 0) k /= 2;
-    k *= 9;
-    if (gcd(10,k) != 1) {
-        cout << -1 << endl;
-        return;
-    }
-    auto f = prime.factorL(k);
-    int t = k;
-    for (auto [p,_] : f) {
-        t = t/p*(p-1);
-    }
-    vector<int> d;
-    for (int i = 1; i*i <= t; i++) {
-        if (t%i) continue;
-        d.push_back(i);
-        d.push_back(t/i);
-    }
-    int ans = t;
-    mint::set_mod(k);
-    for (int x : d) if (mint(10).pow(x).val() == 1) {
-        ans = min(ans, x);
-    }
-    cout << ans << endl;
-}
+};
 
 int main() {
-    int t;
-    cin >> t;
-    rep(ti,t) solve();
+    int n;
+    cin >> n;
+    ll ans = 0;
+    Sieve sieve(200000);
+    for (ll i = 1; i <= n; i++) {
+        ll l = 0, r = n+1;
+        while (l+1 < r) {
+            ll c = (l+r)/2;
+            if (c*c/i > n) r = c;
+            else l = c;
+        }
+        auto vec = sieve.factor(i);
+        ll num = 1;
+        for (auto [a,b] : vec) {
+            b = (b+1)/2;
+            num *= pow(a,b);
+        }
+        ans += l/num;
+    }
+    cout << ans << endl;
     return 0;
 }

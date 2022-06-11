@@ -98,7 +98,7 @@ struct Sieve {
         }
         return res;
     }
-    vector<pair<ll,int>> factor(ll x) {
+    vector<pair<ll,int>> factorL(ll x) {
         vector<pair<ll,int>> res;
         for (int p : primes) {
             int y = 0;
